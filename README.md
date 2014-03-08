@@ -1,4 +1,4 @@
-# miniQuery
+# johanQuery
 A tiny subset of jQuery - not nearly as awesome, but small.
 
 ## Methods
