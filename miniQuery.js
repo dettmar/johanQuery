@@ -56,19 +56,15 @@
     };
 
     /*
-    	#
-    	# Result manipulation methods
-    	#
-    	# @method slice: -> inherited from Array
-    	# @method splice: -> inherited from Array
-    	# @method reverse: -> inherited from Array
-    	#
+    		#
+    		# Result manipulation methods
+    		#
+    		# @method slice: -> inherited from Array
+    		# @method splice: -> inherited from Array
+    		# @method reverse: -> inherited from Array
+    		#
     */
 
-
-    $.prototype.add = function() {};
-
-    $.prototype.filter = function() {};
 
     $.prototype.first = function() {
       return this.slice(0, 1);
@@ -127,10 +123,23 @@
       return result;
     };
 
+    $.prototype.add = function() {};
+
+    $.prototype.filter = function(callback) {
+      var result;
+      result = [];
+      this.each(function(i, element) {
+        if (callback.call(element, i, element)) {
+          return result.push(this);
+        }
+      });
+      return result;
+    };
+
     /*
-    	#
-    	# DOM traversal methods
-    	#
+    		#
+    		# DOM traversal methods
+    		#
     */
 
 
@@ -163,9 +172,9 @@
     $.prototype.siblings = function() {};
 
     /*
-    	#
-    	# Class manipulation methods
-    	#
+    		#
+    		# Class manipulation methods
+    		#
     */
 
 
@@ -192,9 +201,9 @@
     };
 
     /*
-    	#
-    	# Attribute manipulation methods
-    	#
+    		#
+    		# Attribute manipulation methods
+    		#
     */
 
 
@@ -212,9 +221,9 @@
     };
 
     /*
-    	#
-    	# Node insertion methods
-    	#
+    		#
+    		# Node insertion methods
+    		#
     */
 
 
@@ -245,12 +254,17 @@
       return this._insertNodes(nodes, "insertBefore");
     };
 
-    $.prototype.remove = function() {};
+    $.prototype.remove = function() {
+      return this.each(function() {
+        var _ref;
+        return (_ref = this.parentElement) != null ? _ref.removeChild(this) : void 0;
+      });
+    };
 
     /*
-    	#
-    	# Node content methods
-    	#
+    		#
+    		# Node content methods
+    		#
     */
 
 
@@ -299,22 +313,14 @@
       return [].slice.call(wrap.childNodes);
     };
 
-    /*
-    	
-    	events?
-    	ajax?
-    	pass html string to constructor? document fragment?
-    */
-
-
     return $;
 
   })();
 
   /*
-  #
-  #	Expose $ and allow for advanced optimizations
-  #
+  	#
+  	#	Expose $ and allow for advanced optimizations
+  	#
   */
 
 

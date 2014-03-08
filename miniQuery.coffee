@@ -42,24 +42,22 @@ class $
 		
 		return obj
 	
+	
 	isHTML: (string = "") ->
 		
 		regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/
 		regx.test string
 	
-
-	###
-	#
-	# Result manipulation methods
-	#
-	# @method slice: -> inherited from Array
-	# @method splice: -> inherited from Array
-	# @method reverse: -> inherited from Array
-	#
-	###
 	
-	add: -> # @todo
-	filter: -> # @todo
+	###
+		#
+		# Result manipulation methods
+		#
+		# @method slice: -> inherited from Array
+		# @method splice: -> inherited from Array
+		# @method reverse: -> inherited from Array
+		#
+	###
 	
 	first: -> @slice(0, 1)
 	last: -> @slice(-1)
@@ -98,11 +96,23 @@ class $
 		
 		return result
 	
+	add: -> # @todo
+	filter: (callback) ->
+		
+		result = []
+		
+		@each (i, element) ->
+			if callback.call element, i, element
+				result.push @
+		
+		result
+		
+				
 	
 	###
-	#
-	# DOM traversal methods
-	#
+		#
+		# DOM traversal methods
+		#
 	###
 	
 	parent: ->
@@ -130,10 +140,11 @@ class $
 	siblings: ->
 
 	
+	
 	###
-	#
-	# Class manipulation methods
-	#
+		#
+		# Class manipulation methods
+		#
 	###
 	
 	_manipulateClass: (classNames, method) ->
@@ -147,10 +158,11 @@ class $
 	toggleClass: (classNames) -> @_manipulateClass classNames, "toggle"
 	
 	
+	
 	###
-	#
-	# Attribute manipulation methods
-	#
+		#
+		# Attribute manipulation methods
+		#
 	###
 	
 	attr: (val, key) ->
@@ -167,10 +179,11 @@ class $
 	data: (val, key) -> @attr "data-#{val}", key
 	
 	
+	
 	###
-	#
-	# Node insertion methods
-	#
+		#
+		# Node insertion methods
+		#
 	###
 	
 	_insertNodes: (nodes, method) ->
@@ -193,12 +206,16 @@ class $
 	
 	
 	remove: ->
+		
+		@each ->
+			@parentElement?.removeChild @
+	
 	
 	
 	###
-	#
-	# Node content methods
-	#
+		#
+		# Node content methods
+		#
 	###
 	
 	html: (content) ->
@@ -239,18 +256,12 @@ class $
 		wrap = document.createElement 'div'
 		wrap.innerHTML = htmlString
 		[].slice.call wrap.childNodes
-	###
-	
-	events?
-	ajax?
-	pass html string to constructor? document fragment?
-	
-	###
+
 	
 ###
-#
-#	Expose $ and allow for advanced optimizations
-#
+	#
+	#	Expose $ and allow for advanced optimizations
+	#
 ###
 window["$"] = window["$"] or $
 window["miniQuery"] = window["miniQuery"] or $
