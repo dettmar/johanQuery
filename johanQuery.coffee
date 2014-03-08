@@ -29,7 +29,6 @@ class $
 			result = [].slice.call result
 		
 		# augment result with $ methods
-		# @todo, seems to augment Array as well
 		@extend result.__proto__, $::
 		
 		return result
@@ -116,6 +115,7 @@ class $
 	###
 	
 	parent: ->
+		
 		result = []
 		
 		@each ->
