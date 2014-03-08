@@ -185,7 +185,7 @@
     };
 
     $.prototype.hasClass = function(classNames) {
-      return this._manipulateClass(classNames, "contains");
+      return this.get(0).classList.contains(classNames);
     };
 
     $.prototype.addClass = function(classNames) {
@@ -207,6 +207,10 @@
     */
 
 
+    $.prototype.data = function(val, key) {
+      return this.attr("data-" + val, key);
+    };
+
     $.prototype.attr = function(val, key) {
       if (key == null) {
         return JSON.parse(this.get(0).getAttribute(val));
@@ -214,10 +218,6 @@
       return this.each(function() {
         return this.setAttribute(val, JSON.stringify(key));
       });
-    };
-
-    $.prototype.data = function(val, key) {
-      return this.attr("data-" + val, key);
     };
 
     /*
@@ -230,28 +230,28 @@
     $.prototype._insertNodes = function(nodes, method) {
       var _this = this;
       if (typeof nodes === "string") {
-        nodes = $.prototype.parseHTML(nodes);
+        nodes = this.parseHTML(nodes);
       }
       if (!(nodes instanceof Array)) {
         nodes = [nodes];
       }
       return this.each(function(i, el) {
         return _this.each.call(nodes, function(j, node) {
-          if (method === "appendChild") {
-            return el[method](_this.clone.call(node));
+          if (method === "append") {
+            return el.appendChild(_this.clone.call(node));
           } else {
-            return el[method](_this.clone.call(node), el.firstChild);
+            return el.insertBefore(_this.clone.call(node), el.firstChild);
           }
         });
       });
     };
 
     $.prototype.append = function(nodes) {
-      return this._insertNodes(nodes, "appendChild");
+      return this._insertNodes(nodes, "append");
     };
 
     $.prototype.prepend = function(nodes) {
-      return this._insertNodes(nodes, "insertBefore");
+      return this._insertNodes(nodes, "prepend");
     };
 
     $.prototype.remove = function() {
@@ -330,6 +330,8 @@
 
   $.prototype["extend"] = $.prototype.extend;
 
+  $.prototype["isHTML"] = $.prototype.isHTML;
+
   $.prototype["first"] = $.prototype.first;
 
   $.prototype["last"] = $.prototype.last;
@@ -344,15 +346,15 @@
 
   $.prototype["map"] = $.prototype.map;
 
+  $.prototype["add"] = $.prototype.map;
+
+  $.prototype["filter"] = $.prototype.filter;
+
   $.prototype["parent"] = $.prototype.parent;
 
   $.prototype["children"] = $.prototype.children;
 
   $.prototype["siblings"] = $.prototype.siblings;
-
-  $.prototype["add"] = $.prototype.add;
-
-  $.prototype["filter"] = $.prototype.filter;
 
   $.prototype["hasClass"] = $.prototype.hasClass;
 
