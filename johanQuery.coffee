@@ -1,7 +1,7 @@
 ###
 #
-# @description miniQuery - a tiny subset of jQuery
-# @class $ and miniQuery
+# @description johanQuery - a tiny subset of jQuery
+# @class $ and johanQuery
 # @author J.Dettmar
 #
 ###
@@ -42,7 +42,7 @@ class $
 		return obj
 	
 	
-	isHTML: (string = "") ->
+	isHTML: (string) ->
 		
 		regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/
 		regx.test string
@@ -252,6 +252,17 @@ class $
 		wrap = document.createElement 'div'
 		wrap.innerHTML = htmlString
 		[].slice.call wrap.childNodes
+	
+	
+	###
+		#
+		# Events
+		#
+	###
+	
+	on: (eventName) ->
+	off: (eventName) ->
+	trigger: (eventName) ->
 
 	
 ###
@@ -260,7 +271,7 @@ class $
 	#
 ###
 window["$"] = window["$"] or $
-window["miniQuery"] = window["miniQuery"] or $
+window["johanQuery"] = window["johanQuery"] or $
 
 $::["extend"] = $::extend
 $::["isHTML"] = $::isHTML

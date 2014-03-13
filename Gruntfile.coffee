@@ -1,18 +1,23 @@
 module.exports = (grunt) ->
 
 	@initConfig
+	
 		watch:
 			files: 'johanQuery.coffee',
-			tasks: 'coffee'
+			tasks: ['coffee', 'uglify']
+		
 		coffee:
 			options:
 				sourceMap: true
 			compile:
 				files:
 					'johanQuery.js': 'johanQuery.coffee'
+		
 		uglify:
 			options:
-				mangle: false
+				report: 'gzip'
+				sourceMap: true
+				sourceMapName: 'johanQuery.min.js.map'
 			my_target:
 				files:
 					'johanQuery.min.js': ['johanQuery.js']

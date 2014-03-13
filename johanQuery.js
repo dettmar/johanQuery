@@ -1,11 +1,11 @@
-/*
-#
-# @description miniQuery - a tiny subset of jQuery
-# @class $ and miniQuery
-# @author J.Dettmar
-#
-*/
 
+/*
+ *
+ * @description johanQuery - a tiny subset of jQuery
+ * @class $ and johanQuery
+ * @author J.Dettmar
+ *
+ */
 
 (function() {
   var $,
@@ -47,23 +47,20 @@
 
     $.prototype.isHTML = function(string) {
       var regx;
-      if (string == null) {
-        string = "";
-      }
       regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
       return regx.test(string);
     };
 
-    /*
-    		#
-    		# Result manipulation methods
-    		#
-    		# @method slice: -> inherited from Array
-    		# @method splice: -> inherited from Array
-    		# @method reverse: -> inherited from Array
-    		#
-    */
 
+    /*
+    		 *
+    		 * Result manipulation methods
+    		 *
+    		 * @method slice: -> inherited from Array
+    		 * @method splice: -> inherited from Array
+    		 * @method reverse: -> inherited from Array
+    		 *
+     */
 
     $.prototype.first = function() {
       return this.slice(0, 1);
@@ -101,24 +98,26 @@
     };
 
     $.prototype.find = function(selector) {
-      var result,
-        _this = this;
+      var result;
       result = [];
-      this.each(function(i, el) {
-        return _this.each.call(el.querySelectorAll(selector), function() {
-          return result.push(this);
-        });
-      });
+      this.each((function(_this) {
+        return function(i, el) {
+          return _this.each.call(el.querySelectorAll(selector), function() {
+            return result.push(this);
+          });
+        };
+      })(this));
       return result;
     };
 
     $.prototype.map = function(callback) {
-      var result,
-        _this = this;
+      var result;
       result = [];
-      this.each(function(i, element) {
-        return result.push(callback.call(element, i, element));
-      });
+      this.each((function(_this) {
+        return function(i, element) {
+          return result.push(callback.call(element, i, element));
+        };
+      })(this));
       return result;
     };
 
@@ -135,12 +134,12 @@
       return result;
     };
 
-    /*
-    		#
-    		# DOM traversal methods
-    		#
-    */
 
+    /*
+    		 *
+    		 * DOM traversal methods
+    		 *
+     */
 
     $.prototype.parent = function() {
       var result;
@@ -155,27 +154,28 @@
     };
 
     $.prototype.children = function() {
-      var result,
-        _this = this;
+      var result;
       result = [];
-      this.each(function(i, el) {
-        return _this.each.call(el.children, function() {
-          if (!(__indexOf.call(result, this) >= 0)) {
-            return result.push(this);
-          }
-        });
-      });
+      this.each((function(_this) {
+        return function(i, el) {
+          return _this.each.call(el.children, function() {
+            if (!(__indexOf.call(result, this) >= 0)) {
+              return result.push(this);
+            }
+          });
+        };
+      })(this));
       return result;
     };
 
     $.prototype.siblings = function() {};
 
-    /*
-    		#
-    		# Class manipulation methods
-    		#
-    */
 
+    /*
+    		 *
+    		 * Class manipulation methods
+    		 *
+     */
 
     $.prototype._manipulateClass = function(classNames, method) {
       return this.each(function() {
@@ -199,12 +199,12 @@
       return this._manipulateClass(classNames, "toggle");
     };
 
-    /*
-    		#
-    		# Attribute manipulation methods
-    		#
-    */
 
+    /*
+    		 *
+    		 * Attribute manipulation methods
+    		 *
+     */
 
     $.prototype.data = function(val, key) {
       return this.attr("data-" + val, key);
@@ -219,30 +219,31 @@
       });
     };
 
-    /*
-    		#
-    		# Node insertion methods
-    		#
-    */
 
+    /*
+    		 *
+    		 * Node insertion methods
+    		 *
+     */
 
     $.prototype._insertNodes = function(nodes, method) {
-      var _this = this;
       if (typeof nodes === "string") {
         nodes = this.parseHTML(nodes);
       }
       if (!(nodes instanceof Array)) {
         nodes = [nodes];
       }
-      return this.each(function(i, el) {
-        return _this.each.call(nodes, function(j, node) {
-          if (method === "append") {
-            return el.appendChild(_this.clone.call(node));
-          } else {
-            return el.insertBefore(_this.clone.call(node), el.firstChild);
-          }
-        });
-      });
+      return this.each((function(_this) {
+        return function(i, el) {
+          return _this.each.call(nodes, function(j, node) {
+            if (method === "append") {
+              return el.appendChild(_this.clone.call(node));
+            } else {
+              return el.insertBefore(_this.clone.call(node), el.firstChild);
+            }
+          });
+        };
+      })(this));
     };
 
     $.prototype.append = function(nodes) {
@@ -260,12 +261,12 @@
       });
     };
 
-    /*
-    		#
-    		# Node content methods
-    		#
-    */
 
+    /*
+    		 *
+    		 * Node content methods
+    		 *
+     */
 
     $.prototype.html = function(content) {
       if (content == null) {
@@ -312,20 +313,33 @@
       return [].slice.call(wrap.childNodes);
     };
 
+
+    /*
+    		 *
+    		 * Events
+    		 *
+     */
+
+    $.prototype.on = function(eventName) {};
+
+    $.prototype.off = function(eventName) {};
+
+    $.prototype.trigger = function(eventName) {};
+
     return $;
 
   })();
 
-  /*
-  	#
-  	#	Expose $ and allow for advanced optimizations
-  	#
-  */
 
+  /*
+  	 *
+  	 *	Expose $ and allow for advanced optimizations
+  	 *
+   */
 
   window["$"] = window["$"] || $;
 
-  window["miniQuery"] = window["miniQuery"] || $;
+  window["johanQuery"] = window["johanQuery"] || $;
 
   $.prototype["extend"] = $.prototype.extend;
 
@@ -379,4 +393,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=.././johanQuery.js.map
+//# sourceMappingURL=johanQuery.js.map
