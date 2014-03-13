@@ -1,5 +1,5 @@
 # johanQuery
-A tiny subset of jQuery - not nearly as awesome, but small.
+A tiny subset of jQuery - not nearly as awesome, but small. 725b gzipped small.
 
 ## Methods
 On an instanciated object using `$("selector")`, you've got these methods at hand:
@@ -38,12 +38,15 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 ### Node content methods
 * `.html()`
 * `.text()`
-
 * `.isHTML()`
 
+### [Events](http://en.wikipedia.org/wiki/DOM_events#Events)
+* `.on()`
+* `.off()`
+* `.trigger()`
 
 ## Special note
-This is only experiment. Me trying learning about how jQuery is working. In other words __do not use this in production!__
+This is only experiment - me trying learning about how jQuery is working. In other words __do not use this in production!__
 
 ## Browser support
 IE 8+, Chrome, Firefox, Safari, Opera

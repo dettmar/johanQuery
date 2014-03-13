@@ -59,9 +59,13 @@ class $
 	###
 	
 	first: -> @slice(0, 1)
+	
 	last: -> @slice(-1)
+	
 	eq: (num = 0) -> @slice(num, num+1)
-	get: (num = 0) -> @[num] 
+	
+	get: (num = 0) -> @[num]
+	
 	each: (callback) -> #[].forEach.apply(@, args)
 		
 		arr = @
@@ -96,6 +100,7 @@ class $
 		result
 	
 	add: -> # @todo
+	
 	filter: (callback) ->
 		
 		result = []
@@ -153,8 +158,11 @@ class $
 			@classList[method].apply @classList, classNames.split " "
 	
 	hasClass: (classNames) -> @get(0).classList.contains classNames
+	
 	addClass: (classNames) -> @_manipulateClass classNames, "add"
+	
 	removeClass: (classNames) -> @_manipulateClass classNames, "remove"
+	
 	toggleClass: (classNames) -> @_manipulateClass classNames, "toggle"
 	
 	
@@ -199,6 +207,7 @@ class $
 					el.insertBefore @clone.call(node), el.firstChild
 	
 	append: (nodes) -> @_insertNodes nodes, "append"
+	
 	prepend: (nodes) -> @_insertNodes nodes, "prepend"
 	
 	remove: ->
@@ -260,9 +269,21 @@ class $
 		#
 	###
 	
-	on: (eventName) ->
+	# @todo: namespacing? data? multiple events?
+	on: (eventName, callback) ->
+		
+		@each ->
+			@["on#{eventName}"] = callback.bind @
+		
 	off: (eventName) ->
-	trigger: (eventName) ->
+			
+		@each ->
+			@["on#{eventName}"] = null
+	
+	trigger: (eventName, data) ->
+		
+		@each ->
+			@dispatchEvent new CustomEvent eventName, data
 
 	
 ###
@@ -273,28 +294,28 @@ class $
 window["$"] = window["$"] or $
 window["johanQuery"] = window["johanQuery"] or $
 
-$::["extend"] = $::extend
-$::["isHTML"] = $::isHTML
-$::["first"] = $::first
-$::["last"] = $::last
-$::["eq"] = $::eq
-$::["get"] = $::get
-$::["each"] = $::each
-$::["find"] = $::find
-$::["map"] = $::map
-$::["add"] = $::map
-$::["filter"] = $::filter
-$::["parent"] = $::parent
-$::["children"] = $::children
-$::["siblings"] = $::siblings
-$::["hasClass"] = $::hasClass
-$::["addClass"] = $::addClass
-$::["removeClass"] = $::removeClass
-$::["toggleClass"] = $::toggleClass
-$::["attr"] = $::attr
-$::["data"] = $::data
-$::["append"] = $::append
-$::["prepend"] = $::prepend
-$::["remove"] = $::remove
-$::["html"] = $::html
-$::["text"] = $::text
+#$::["extend"] = $::extend
+#$::["isHTML"] = $::isHTML
+#$::["first"] = $::first
+#$::["last"] = $::last
+#$::["eq"] = $::eq
+#$::["get"] = $::get
+#$::["each"] = $::each
+#$::["find"] = $::find
+#$::["map"] = $::map
+#$::["add"] = $::map
+#$::["filter"] = $::filter
+#$::["parent"] = $::parent
+#$::["children"] = $::children
+#$::["siblings"] = $::siblings
+#$::["hasClass"] = $::hasClass
+#$::["addClass"] = $::addClass
+#$::["removeClass"] = $::removeClass
+#$::["toggleClass"] = $::toggleClass
+#$::["attr"] = $::attr
+#$::["data"] = $::data
+#$::["append"] = $::append
+#$::["prepend"] = $::prepend
+#$::["remove"] = $::remove
+#$::["html"] = $::html
+#$::["text"] = $::text

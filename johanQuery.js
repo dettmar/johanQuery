@@ -320,11 +320,23 @@
     		 *
      */
 
-    $.prototype.on = function(eventName) {};
+    $.prototype.on = function(eventName, callback) {
+      return this.each(function() {
+        return this["on" + eventName] = callback.bind(this);
+      });
+    };
 
-    $.prototype.off = function(eventName) {};
+    $.prototype.off = function(eventName) {
+      return this.each(function() {
+        return this["on" + eventName] = null;
+      });
+    };
 
-    $.prototype.trigger = function(eventName) {};
+    $.prototype.trigger = function(eventName, data) {
+      return this.each(function() {
+        return this.dispatchEvent(new CustomEvent(eventName, data));
+      });
+    };
 
     return $;
 
@@ -340,56 +352,6 @@
   window["$"] = window["$"] || $;
 
   window["johanQuery"] = window["johanQuery"] || $;
-
-  $.prototype["extend"] = $.prototype.extend;
-
-  $.prototype["isHTML"] = $.prototype.isHTML;
-
-  $.prototype["first"] = $.prototype.first;
-
-  $.prototype["last"] = $.prototype.last;
-
-  $.prototype["eq"] = $.prototype.eq;
-
-  $.prototype["get"] = $.prototype.get;
-
-  $.prototype["each"] = $.prototype.each;
-
-  $.prototype["find"] = $.prototype.find;
-
-  $.prototype["map"] = $.prototype.map;
-
-  $.prototype["add"] = $.prototype.map;
-
-  $.prototype["filter"] = $.prototype.filter;
-
-  $.prototype["parent"] = $.prototype.parent;
-
-  $.prototype["children"] = $.prototype.children;
-
-  $.prototype["siblings"] = $.prototype.siblings;
-
-  $.prototype["hasClass"] = $.prototype.hasClass;
-
-  $.prototype["addClass"] = $.prototype.addClass;
-
-  $.prototype["removeClass"] = $.prototype.removeClass;
-
-  $.prototype["toggleClass"] = $.prototype.toggleClass;
-
-  $.prototype["attr"] = $.prototype.attr;
-
-  $.prototype["data"] = $.prototype.data;
-
-  $.prototype["append"] = $.prototype.append;
-
-  $.prototype["prepend"] = $.prototype.prepend;
-
-  $.prototype["remove"] = $.prototype.remove;
-
-  $.prototype["html"] = $.prototype.html;
-
-  $.prototype["text"] = $.prototype.text;
 
 }).call(this);
 
