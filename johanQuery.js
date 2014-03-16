@@ -12,7 +12,7 @@
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   johanQuery = (function() {
-    var _innerContent, _insertNodes;
+    var _innerContent, _insertNodes, _manipulateClass;
 
     function johanQuery(selector) {
       var result;
@@ -181,7 +181,7 @@
     		 *
      */
 
-    johanQuery.prototype._manipulateClass = function(classNames, method) {
+    _manipulateClass = function(classNames, method) {
       return this.each(function() {
         return this.classList[method].apply(this.classList, classNames.split(" "));
       });
@@ -192,15 +192,15 @@
     };
 
     johanQuery.prototype.addClass = function(classNames) {
-      return this._manipulateClass(classNames, "add");
+      return _manipulateClass.call(this, classNames, "add");
     };
 
     johanQuery.prototype.removeClass = function(classNames) {
-      return this._manipulateClass(classNames, "remove");
+      return _manipulateClass.call(this, classNames, "remove");
     };
 
     johanQuery.prototype.toggleClass = function(classNames) {
-      return this._manipulateClass(classNames, "toggle");
+      return _manipulateClass.call(this, classNames, "toggle");
     };
 
 

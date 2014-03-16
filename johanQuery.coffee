@@ -156,18 +156,18 @@ class johanQuery
 		#
 	###
 	
-	_manipulateClass: (classNames, method) ->
+	_manipulateClass = (classNames, method) ->
 		
 		@each ->
 			@classList[method].apply @classList, classNames.split " "
 	
 	hasClass: (classNames) -> @get(0).classList.contains classNames
 	
-	addClass: (classNames) -> @_manipulateClass classNames, "add"
+	addClass: (classNames) -> _manipulateClass.call @, classNames, "add"
 	
-	removeClass: (classNames) -> @_manipulateClass classNames, "remove"
+	removeClass: (classNames) -> _manipulateClass.call @, classNames, "remove"
 	
-	toggleClass: (classNames) -> @_manipulateClass classNames, "toggle"
+	toggleClass: (classNames) -> _manipulateClass.call @, classNames, "toggle"
 	
 	
 	
