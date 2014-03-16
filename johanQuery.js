@@ -12,6 +12,8 @@
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   $ = (function() {
+    var _insertNodes;
+
     function $(selector) {
       var result;
       if (!(this instanceof $)) {
@@ -226,7 +228,7 @@
     		 *
      */
 
-    $.prototype._insertNodes = function(nodes, method) {
+    _insertNodes = function(nodes, method) {
       if (typeof nodes === "string") {
         nodes = this.parseHTML(nodes);
       }
@@ -235,23 +237,19 @@
       }
       return this.each((function(_this) {
         return function(i, el) {
-          return _this.each.call(nodes, function(j, node) {
-            if (method === "append") {
-              return el.appendChild(_this.clone.call(node));
-            } else {
-              return el.insertBefore(_this.clone.call(node), el.firstChild);
-            }
+          return _this.each.call(_this.clone.call(nodes), function(j, node) {
+            return el[method](node, el.firstChild);
           });
         };
       })(this));
     };
 
     $.prototype.append = function(nodes) {
-      return this._insertNodes(nodes, "append");
+      return _insertNodes.call(this, nodes, "appendChild");
     };
 
     $.prototype.prepend = function(nodes) {
-      return this._insertNodes(nodes, "prepend");
+      return _insertNodes.call(this, nodes, "insertBefore");
     };
 
     $.prototype.remove = function() {

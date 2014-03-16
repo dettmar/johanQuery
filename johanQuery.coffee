@@ -191,7 +191,7 @@ class $
 		#
 	###
 	
-	_insertNodes: (nodes, method) ->
+	_insertNodes = (nodes, method) ->
 		
 		if typeof nodes is "string"
 			nodes = @parseHTML nodes
@@ -200,15 +200,12 @@ class $
 			nodes = [nodes]
 		
 		@each (i, el) =>
-			@each.call nodes, (j, node) =>
-				if method is "append"
-					el.appendChild @clone.call node
-				else
-					el.insertBefore @clone.call(node), el.firstChild
+			@each.call @clone.call(nodes), (j, node) ->
+					el[method] node, el.firstChild
 	
-	append: (nodes) -> @_insertNodes nodes, "append"
+	append: (nodes) -> _insertNodes.call @, nodes, "appendChild"
 	
-	prepend: (nodes) -> @_insertNodes nodes, "prepend"
+	prepend: (nodes) -> _insertNodes.call @, nodes, "insertBefore"
 	
 	remove: ->
 		
