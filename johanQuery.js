@@ -8,16 +8,16 @@
  */
 
 (function() {
-  var $,
+  var johanQuery,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  $ = (function() {
-    var _insertNodes;
+  johanQuery = (function() {
+    var _innerContent, _insertNodes;
 
-    function $(selector) {
+    function johanQuery(selector) {
       var result;
-      if (!(this instanceof $)) {
-        return new $(selector);
+      if (!(this instanceof johanQuery)) {
+        return new johanQuery(selector);
       }
       this.selector = selector;
       if (this.selector === window || this.selector === document) {
@@ -32,11 +32,11 @@
         result = document.querySelectorAll(this.selector);
         result = [].slice.call(result);
       }
-      this.extend(result.__proto__, $.prototype);
+      this.extend(result.__proto__, johanQuery.prototype);
       return result;
     }
 
-    $.prototype.extend = function(obj, mixin) {
+    johanQuery.prototype.extend = function(obj, mixin) {
       var method, name;
       for (name in mixin) {
         method = mixin[name];
@@ -47,7 +47,7 @@
       return obj;
     };
 
-    $.prototype.isHTML = function(string) {
+    johanQuery.prototype.isHTML = function(string) {
       var regx;
       regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
       return regx.test(string);
@@ -64,29 +64,29 @@
     		 *
      */
 
-    $.prototype.first = function() {
+    johanQuery.prototype.first = function() {
       return this.slice(0, 1);
     };
 
-    $.prototype.last = function() {
+    johanQuery.prototype.last = function() {
       return this.slice(-1);
     };
 
-    $.prototype.eq = function(num) {
+    johanQuery.prototype.eq = function(num) {
       if (num == null) {
         num = 0;
       }
       return this.slice(num, num + 1);
     };
 
-    $.prototype.get = function(num) {
+    johanQuery.prototype.get = function(num) {
       if (num == null) {
         num = 0;
       }
       return this[num];
     };
 
-    $.prototype.each = function(callback) {
+    johanQuery.prototype.each = function(callback) {
       var arr, element, i, _i, _len;
       arr = this;
       if (!(arr instanceof Array)) {
@@ -99,7 +99,7 @@
       return this;
     };
 
-    $.prototype.find = function(selector) {
+    johanQuery.prototype.find = function(selector) {
       var result;
       result = [];
       this.each((function(_this) {
@@ -112,7 +112,7 @@
       return result;
     };
 
-    $.prototype.map = function(callback) {
+    johanQuery.prototype.map = function(callback) {
       var result;
       result = [];
       this.each((function(_this) {
@@ -123,9 +123,11 @@
       return result;
     };
 
-    $.prototype.add = function() {};
+    johanQuery.prototype.add = function(content) {
+      return this.concat(johanQuery(content));
+    };
 
-    $.prototype.filter = function(callback) {
+    johanQuery.prototype.filter = function(callback) {
       var result;
       result = [];
       this.each(function(i, element) {
@@ -143,7 +145,7 @@
     		 *
      */
 
-    $.prototype.parent = function() {
+    johanQuery.prototype.parent = function() {
       var result;
       result = [];
       this.each(function() {
@@ -155,7 +157,7 @@
       return result;
     };
 
-    $.prototype.children = function() {
+    johanQuery.prototype.children = function() {
       var result;
       result = [];
       this.each((function(_this) {
@@ -170,7 +172,7 @@
       return result;
     };
 
-    $.prototype.siblings = function() {};
+    johanQuery.prototype.siblings = function() {};
 
 
     /*
@@ -179,25 +181,25 @@
     		 *
      */
 
-    $.prototype._manipulateClass = function(classNames, method) {
+    johanQuery.prototype._manipulateClass = function(classNames, method) {
       return this.each(function() {
         return this.classList[method].apply(this.classList, classNames.split(" "));
       });
     };
 
-    $.prototype.hasClass = function(classNames) {
+    johanQuery.prototype.hasClass = function(classNames) {
       return this.get(0).classList.contains(classNames);
     };
 
-    $.prototype.addClass = function(classNames) {
+    johanQuery.prototype.addClass = function(classNames) {
       return this._manipulateClass(classNames, "add");
     };
 
-    $.prototype.removeClass = function(classNames) {
+    johanQuery.prototype.removeClass = function(classNames) {
       return this._manipulateClass(classNames, "remove");
     };
 
-    $.prototype.toggleClass = function(classNames) {
+    johanQuery.prototype.toggleClass = function(classNames) {
       return this._manipulateClass(classNames, "toggle");
     };
 
@@ -208,11 +210,11 @@
     		 *
      */
 
-    $.prototype.data = function(val, key) {
+    johanQuery.prototype.data = function(val, key) {
       return this.attr("data-" + val, key);
     };
 
-    $.prototype.attr = function(val, key) {
+    johanQuery.prototype.attr = function(val, key) {
       if (key == null) {
         return JSON.parse(this.get(0).getAttribute(val));
       }
@@ -237,22 +239,22 @@
       }
       return this.each((function(_this) {
         return function(i, el) {
-          return _this.each.call(_this.clone.call(nodes), function(j, node) {
+          return _this.clone.call(nodes).each(function(j, node) {
             return el[method](node, el.firstChild);
           });
         };
       })(this));
     };
 
-    $.prototype.append = function(nodes) {
+    johanQuery.prototype.append = function(nodes) {
       return _insertNodes.call(this, nodes, "appendChild");
     };
 
-    $.prototype.prepend = function(nodes) {
+    johanQuery.prototype.prepend = function(nodes) {
       return _insertNodes.call(this, nodes, "insertBefore");
     };
 
-    $.prototype.remove = function() {
+    johanQuery.prototype.remove = function() {
       return this.each(function() {
         var _ref;
         return (_ref = this.parentElement) != null ? _ref.removeChild(this) : void 0;
@@ -266,42 +268,35 @@
     		 *
      */
 
-    $.prototype.html = function(content) {
+    _innerContent = function(content, method) {
       if (content == null) {
-        return this.get(0).innerHTML;
+        return this.get(0)[method];
       }
       return this.each(function() {
-        return this.innerHTML = content;
+        return this[method] = content;
       });
     };
 
-    $.prototype.text = function(content) {
-      if (content == null) {
-        return this.get(0).innerText;
-      }
-      return this.each(function() {
-        return this.innerText = content;
-      });
+    johanQuery.prototype.html = function(content) {
+      return _innerContent.call(this, content, "innerHTML");
     };
 
-    $.prototype.clone = function(deep) {
+    johanQuery.prototype.text = function(content) {
+      return _innerContent.call(this, content, "innerText");
+    };
+
+    johanQuery.prototype.clone = function(deep) {
       if (deep == null) {
         deep = true;
       }
-      if (this instanceof Array) {
-        return this.map(function() {
-          if (this instanceof HTMLElement) {
-            return this.cloneNode(deep);
-          }
-        });
-      }
-      if (this instanceof HTMLElement) {
-        return this.cloneNode(deep);
-      }
-      return this;
+      return this.map(function() {
+        if (this instanceof HTMLElement) {
+          return this.cloneNode(deep);
+        }
+      });
     };
 
-    $.prototype.parseHTML = function(htmlString) {
+    johanQuery.prototype.parseHTML = function(htmlString) {
       var wrap;
       if (htmlString == null) {
         htmlString = "";
@@ -318,38 +313,38 @@
     		 *
      */
 
-    $.prototype.on = function(eventName, callback) {
+    johanQuery.prototype.on = function(eventName, callback) {
       return this.each(function() {
         return this["on" + eventName] = callback.bind(this);
       });
     };
 
-    $.prototype.off = function(eventName) {
+    johanQuery.prototype.off = function(eventName) {
       return this.each(function() {
         return this["on" + eventName] = null;
       });
     };
 
-    $.prototype.trigger = function(eventName, data) {
+    johanQuery.prototype.trigger = function(eventName, data) {
       return this.each(function() {
         return this.dispatchEvent(new CustomEvent(eventName, data));
       });
     };
 
-    return $;
+    return johanQuery;
 
   })();
 
 
   /*
   	 *
-  	 *	Expose $ and allow for advanced optimizations
+  	 *	Expose johanQuery and allow for advanced optimizations
   	 *
    */
 
-  window["$"] = window["$"] || $;
+  window["$"] = window["$"] || johanQuery;
 
-  window["johanQuery"] = window["johanQuery"] || $;
+  window["johanQuery"] = window["johanQuery"] || johanQuery;
 
 }).call(this);
 

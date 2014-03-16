@@ -6,13 +6,13 @@
 #
 ###
 
-class $
+class johanQuery
 	
 	constructor: (selector) ->
 		
 		# make sure new instance is created
-		unless @ instanceof $
-			return new $ selector
+		unless @ instanceof johanQuery
+			return new johanQuery selector
 		
 		@selector = selector
 				
@@ -28,8 +28,8 @@ class $
 			result = document.querySelectorAll @selector
 			result = [].slice.call result
 		
-		# augment result with $ methods
-		@extend result.__proto__, $::
+		# augment result with johanQuery methods
+		@extend result.__proto__, johanQuery::
 		
 		return result
 	
@@ -83,6 +83,7 @@ class $
 	find: (selector) ->
 		
 		result = []
+		
 		@each (i, el) =>
 			@each.call el.querySelectorAll(selector), ->
 				result.push @
@@ -99,7 +100,10 @@ class $
 		
 		result
 	
-	add: -> # @todo
+	add: (content) ->
+
+		@concat johanQuery content
+		
 	
 	filter: (callback) ->
 		
@@ -200,7 +204,7 @@ class $
 			nodes = [nodes]
 		
 		@each (i, el) =>
-			@each.call @clone.call(nodes), (j, node) ->
+			@clone.call(nodes).each (j, node) ->
 					el[method] node, el.firstChild
 	
 	append: (nodes) -> _insertNodes.call @, nodes, "appendChild"
@@ -220,37 +224,29 @@ class $
 		#
 	###
 	
-	html: (content) ->
+	_innerContent = (content, method) ->
 		
 		# if content isnt passed in
 		unless content?
-			return @get(0).innerHTML
+			return @get(0)[method]
 		
 		# if content is passed in
 		@each ->
-			@innerHTML = content
+			@[method] = content
+		
+	html: (content) ->
+		
+		_innerContent.call @, content, "innerHTML"
 
 	text: (content) ->
 		
-		# if content isnt passed in
-		unless content?
-			return @get(0).innerText
-		
-		# if content is passed in
-		@each ->
-			@innerText = content
+		_innerContent.call @, content, "innerText"
 	
 	clone: (deep = true) ->
 		
-		if @ instanceof Array
-			return @map ->
-				if @ instanceof HTMLElement
-					@cloneNode deep
-		
-		if @ instanceof HTMLElement
-			return @cloneNode deep
-		
-		@
+		@map ->
+			if @ instanceof HTMLElement
+				@cloneNode deep
 	
 	
 	parseHTML: (htmlString = "") ->
@@ -285,11 +281,11 @@ class $
 	
 ###
 	#
-	#	Expose $ and allow for advanced optimizations
+	#	Expose johanQuery and allow for advanced optimizations
 	#
 ###
-window["$"] = window["$"] or $
-window["johanQuery"] = window["johanQuery"] or $
+window["$"] = window["$"] or johanQuery
+window["johanQuery"] = window["johanQuery"] or johanQuery
 
 #$::["extend"] = $::extend
 #$::["isHTML"] = $::isHTML
