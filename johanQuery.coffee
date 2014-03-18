@@ -6,32 +6,37 @@
 #
 ###
 
-class johanQuery
+class johanQuery extends Array
 	
 	constructor: (selector) ->
+		
+		# if johanQuery obj is passed in
+		if selector instanceof johanQuery
+			return selector
 		
 		# make sure new instance is created
 		unless @ instanceof johanQuery
 			return new johanQuery selector
 		
-		@selector = selector
-				
-		if @selector is window or @selector is document
-			result = [@selector]
-		else if @selector instanceof HTMLElement
-			result = [@selector]
-		else if @selector instanceof NodeList
-			result = [].slice.call @selector
-		else if @isHTML @selector
-			result = @parseHTML @selector
-		else
-			result = document.querySelectorAll @selector
-			result = [].slice.call result
-		
 		# augment result with johanQuery methods
-		@extend result.__proto__, johanQuery::
+		@extend @__proto__, johanQuery::
 		
-		return result
+		if selector is window or selector is document
+			@push.call @, selector
+		else if selector instanceof HTMLElement
+			@push.call @, selector
+		else if selector instanceof Array
+			@push.apply @, [].slice.call selector
+		else if selector instanceof NodeList
+			@push.apply @, [].slice.call selector
+		else if @isHTML @selector
+			@push.apply @, [].slice.call @parseHTML selector
+		else
+			@push.apply @, [].slice.call document.querySelectorAll selector
+		
+		@selector = selector
+		
+		return @
 	
 	
 	extend: (obj, mixin) ->
@@ -58,11 +63,17 @@ class johanQuery
 		#
 	###
 	
-	first: -> @slice(0, 1)
+	slice: -> new johanQuery super
 	
-	last: -> @slice(-1)
+	splice: -> new johanQuery super
 	
-	eq: (num = 0) -> @slice(num, num+1)
+	reverse: -> new johanQuery super
+	
+	first: -> @slice 0, 1
+	
+	last: -> @slice -1
+	
+	eq: (num = 0) -> @slice num, num + 1
 	
 	get: (num = 0) -> @[num]
 	
@@ -88,21 +99,26 @@ class johanQuery
 			@each.call el.querySelectorAll(selector), ->
 				result.push @
 		
-		result
+		@length = 0
+		@push.apply @, result
+		@
 	
 	
 	map: (callback) ->
 		
 		result = []
-		
-		@each (i, element) =>
-			result.push callback.call element, i, element
+
+		@each (i, element) ->
+			val = callback.call element, i, element
+			# only add if not null
+			result.push val if val?
 		
 		result
 	
 	add: (content) ->
 
-		@concat johanQuery content
+		@push.apply @, johanQuery content
+		@
 		
 	
 	filter: (callback) ->
@@ -123,6 +139,7 @@ class johanQuery
 		#
 	###
 	
+	# @todo combine with map?
 	parent: ->
 		
 		result = []
@@ -131,7 +148,9 @@ class johanQuery
 			if @parentElement? and not (@parentElement in result)
 				result.push @parentElement
 		
-		result
+		@length = 0
+		@push.apply @, result
+		@
 	
 	
 	children: ->
@@ -143,10 +162,12 @@ class johanQuery
 				if not (@ in result)
 					result.push @
 		
-		result
+		@length = 0
+		@push.apply @, result
+		@
 	
 	
-	siblings: ->
+	siblings: -> # @todo
 
 	
 	
@@ -182,7 +203,9 @@ class johanQuery
 		
 		# if only get value, get the first elements value
 		unless key?
-			return JSON.parse @get(0).getAttribute val
+			attr = @get(0).getAttribute val
+			try attr = JSON.parse attr
+			return attr
 		
 		# if a set value, add to all elements
 		@each ->
@@ -286,29 +309,3 @@ class johanQuery
 ###
 window["$"] = window["$"] or johanQuery
 window["johanQuery"] = window["johanQuery"] or johanQuery
-
-#$::["extend"] = $::extend
-#$::["isHTML"] = $::isHTML
-#$::["first"] = $::first
-#$::["last"] = $::last
-#$::["eq"] = $::eq
-#$::["get"] = $::get
-#$::["each"] = $::each
-#$::["find"] = $::find
-#$::["map"] = $::map
-#$::["add"] = $::map
-#$::["filter"] = $::filter
-#$::["parent"] = $::parent
-#$::["children"] = $::children
-#$::["siblings"] = $::siblings
-#$::["hasClass"] = $::hasClass
-#$::["addClass"] = $::addClass
-#$::["removeClass"] = $::removeClass
-#$::["toggleClass"] = $::toggleClass
-#$::["attr"] = $::attr
-#$::["data"] = $::data
-#$::["append"] = $::append
-#$::["prepend"] = $::prepend
-#$::["remove"] = $::remove
-#$::["html"] = $::html
-#$::["text"] = $::text

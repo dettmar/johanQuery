@@ -9,31 +9,38 @@
 
 (function() {
   var johanQuery,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  johanQuery = (function() {
+  johanQuery = (function(_super) {
     var _innerContent, _insertNodes, _manipulateClass;
 
+    __extends(johanQuery, _super);
+
     function johanQuery(selector) {
-      var result;
+      if (selector instanceof johanQuery) {
+        return selector;
+      }
       if (!(this instanceof johanQuery)) {
         return new johanQuery(selector);
       }
-      this.selector = selector;
-      if (this.selector === window || this.selector === document) {
-        result = [this.selector];
-      } else if (this.selector instanceof HTMLElement) {
-        result = [this.selector];
-      } else if (this.selector instanceof NodeList) {
-        result = [].slice.call(this.selector);
+      this.extend(this.__proto__, johanQuery.prototype);
+      if (selector === window || selector === document) {
+        this.push.call(this, selector);
+      } else if (selector instanceof HTMLElement) {
+        this.push.call(this, selector);
+      } else if (selector instanceof Array) {
+        this.push.apply(this, [].slice.call(selector));
+      } else if (selector instanceof NodeList) {
+        this.push.apply(this, [].slice.call(selector));
       } else if (this.isHTML(this.selector)) {
-        result = this.parseHTML(this.selector);
+        this.push.apply(this, [].slice.call(this.parseHTML(selector)));
       } else {
-        result = document.querySelectorAll(this.selector);
-        result = [].slice.call(result);
+        this.push.apply(this, [].slice.call(document.querySelectorAll(selector)));
       }
-      this.extend(result.__proto__, johanQuery.prototype);
-      return result;
+      this.selector = selector;
+      return this;
     }
 
     johanQuery.prototype.extend = function(obj, mixin) {
@@ -63,6 +70,18 @@
     		 * @method reverse: -> inherited from Array
     		 *
      */
+
+    johanQuery.prototype.slice = function() {
+      return new johanQuery(johanQuery.__super__.slice.apply(this, arguments));
+    };
+
+    johanQuery.prototype.splice = function() {
+      return new johanQuery(johanQuery.__super__.splice.apply(this, arguments));
+    };
+
+    johanQuery.prototype.reverse = function() {
+      return new johanQuery(johanQuery.__super__.reverse.apply(this, arguments));
+    };
 
     johanQuery.prototype.first = function() {
       return this.slice(0, 1);
@@ -109,22 +128,27 @@
           });
         };
       })(this));
-      return result;
+      this.length = 0;
+      this.push.apply(this, result);
+      return this;
     };
 
     johanQuery.prototype.map = function(callback) {
       var result;
       result = [];
-      this.each((function(_this) {
-        return function(i, element) {
-          return result.push(callback.call(element, i, element));
-        };
-      })(this));
+      this.each(function(i, element) {
+        var val;
+        val = callback.call(element, i, element);
+        if (val != null) {
+          return result.push(val);
+        }
+      });
       return result;
     };
 
     johanQuery.prototype.add = function(content) {
-      return this.concat(johanQuery(content));
+      this.push.apply(this, johanQuery(content));
+      return this;
     };
 
     johanQuery.prototype.filter = function(callback) {
@@ -154,7 +178,9 @@
           return result.push(this.parentElement);
         }
       });
-      return result;
+      this.length = 0;
+      this.push.apply(this, result);
+      return this;
     };
 
     johanQuery.prototype.children = function() {
@@ -169,7 +195,9 @@
           });
         };
       })(this));
-      return result;
+      this.length = 0;
+      this.push.apply(this, result);
+      return this;
     };
 
     johanQuery.prototype.siblings = function() {};
@@ -215,8 +243,13 @@
     };
 
     johanQuery.prototype.attr = function(val, key) {
+      var attr;
       if (key == null) {
-        return JSON.parse(this.get(0).getAttribute(val));
+        attr = this.get(0).getAttribute(val);
+        try {
+          attr = JSON.parse(attr);
+        } catch (_error) {}
+        return attr;
       }
       return this.each(function() {
         return this.setAttribute(val, JSON.stringify(key));
@@ -333,7 +366,7 @@
 
     return johanQuery;
 
-  })();
+  })(Array);
 
 
   /*
