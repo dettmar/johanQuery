@@ -57,10 +57,6 @@ class johanQuery extends Array
 		#
 		# Result manipulation methods
 		#
-		# @method slice: -> inherited from Array
-		# @method splice: -> inherited from Array
-		# @method reverse: -> inherited from Array
-		#
 	###
 	
 	slice: -> new johanQuery super
@@ -99,9 +95,7 @@ class johanQuery extends Array
 			@each.call el.querySelectorAll(selector), ->
 				result.push @
 		
-		@length = 0
-		@push.apply @, result
-		@
+		new johanQuery result
 	
 	
 	map: (callback) ->
@@ -117,7 +111,7 @@ class johanQuery extends Array
 	
 	add: (content) ->
 
-		@push.apply @, johanQuery content
+		@push.apply @, new johanQuery content
 		@
 		
 	
@@ -129,7 +123,7 @@ class johanQuery extends Array
 			if callback.call element, i, element
 				result.push @
 		
-		result
+		new johanQuery result
 		
 				
 	

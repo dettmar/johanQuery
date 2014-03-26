@@ -65,10 +65,6 @@
     		 *
     		 * Result manipulation methods
     		 *
-    		 * @method slice: -> inherited from Array
-    		 * @method splice: -> inherited from Array
-    		 * @method reverse: -> inherited from Array
-    		 *
      */
 
     johanQuery.prototype.slice = function() {
@@ -128,9 +124,7 @@
           });
         };
       })(this));
-      this.length = 0;
-      this.push.apply(this, result);
-      return this;
+      return new johanQuery(result);
     };
 
     johanQuery.prototype.map = function(callback) {
@@ -147,7 +141,7 @@
     };
 
     johanQuery.prototype.add = function(content) {
-      this.push.apply(this, johanQuery(content));
+      this.push.apply(this, new johanQuery(content));
       return this;
     };
 
@@ -159,7 +153,7 @@
           return result.push(this);
         }
       });
-      return result;
+      return new johanQuery(result);
     };
 
 
