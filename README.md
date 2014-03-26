@@ -5,6 +5,9 @@ A tiny subset of jQuery - not nearly as awesome, but small. __872 B__ gzipped sm
 On an instanciated object using `$("selector")`, you've got these methods at hand:
 
 ### Result manipulation methods
+* `.slice()`
+* `.splice()`
+* `.reverse()`
 * `.first()`
 * `.last()`
 * `.eq()`
