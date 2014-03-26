@@ -29,8 +29,11 @@ class johanQuery extends Array
 			@push.apply @, [].slice.call selector
 		else if selector instanceof NodeList
 			@push.apply @, [].slice.call selector
-		else if @isHTML @selector
+		else if @isHTML selector
 			@push.apply @, [].slice.call @parseHTML selector
+		else if typeof selector is "function"
+			if document.readyState is "complete" then selector()
+			else document.addEventListener "DOMContentLoaded", selector
 		else
 			@push.apply @, [].slice.call document.querySelectorAll selector
 		
@@ -142,9 +145,7 @@ class johanQuery extends Array
 			if @parentElement? and not (@parentElement in result)
 				result.push @parentElement
 		
-		@length = 0
-		@push.apply @, result
-		@
+		new johanQuery result
 	
 	
 	children: ->
@@ -153,12 +154,10 @@ class johanQuery extends Array
 		
 		@each (i, el) =>
 			@each.call el.children, ->
-				if not (@ in result)
+				unless @ in result
 					result.push @
 		
-		@length = 0
-		@push.apply @, result
-		@
+		new johanQuery result
 	
 	
 	siblings: -> # @todo
@@ -202,8 +201,9 @@ class johanQuery extends Array
 			return attr
 		
 		# if a set value, add to all elements
+		key = if typeof key is "string" then key else JSON.stringify key
 		@each ->
-			@setAttribute val, JSON.stringify key
+			@setAttribute val, key
 	
 	
 	###

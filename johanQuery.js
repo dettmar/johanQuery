@@ -34,8 +34,14 @@
         this.push.apply(this, [].slice.call(selector));
       } else if (selector instanceof NodeList) {
         this.push.apply(this, [].slice.call(selector));
-      } else if (this.isHTML(this.selector)) {
+      } else if (this.isHTML(selector)) {
         this.push.apply(this, [].slice.call(this.parseHTML(selector)));
+      } else if (typeof selector === "function") {
+        if (document.readyState === "complete") {
+          selector();
+        } else {
+          document.addEventListener("DOMContentLoaded", selector);
+        }
       } else {
         this.push.apply(this, [].slice.call(document.querySelectorAll(selector)));
       }
@@ -172,9 +178,7 @@
           return result.push(this.parentElement);
         }
       });
-      this.length = 0;
-      this.push.apply(this, result);
-      return this;
+      return new johanQuery(result);
     };
 
     johanQuery.prototype.children = function() {
@@ -183,15 +187,13 @@
       this.each((function(_this) {
         return function(i, el) {
           return _this.each.call(el.children, function() {
-            if (!(__indexOf.call(result, this) >= 0)) {
+            if (__indexOf.call(result, this) < 0) {
               return result.push(this);
             }
           });
         };
       })(this));
-      this.length = 0;
-      this.push.apply(this, result);
-      return this;
+      return new johanQuery(result);
     };
 
     johanQuery.prototype.siblings = function() {};
@@ -245,8 +247,9 @@
         } catch (_error) {}
         return attr;
       }
+      key = typeof key === "string" ? key : JSON.stringify(key);
       return this.each(function() {
-        return this.setAttribute(val, JSON.stringify(key));
+        return this.setAttribute(val, key);
       });
     };
 
