@@ -5,6 +5,11 @@ A tiny subset of jQuery - not nearly as awesome, but small. __872 B__ gzipped sm
 On an instanciated object using `$("selector")`, you've got these methods at hand:
 
 ### Result manipulation methods
+* `.find()`
+* `.each()`
+* `.map()`
+* `.add()`
+* `.filter()`
 * `.slice()`
 * `.splice()`
 * `.reverse()`
@@ -12,11 +17,7 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 * `.last()`
 * `.eq()`
 * `.get()`
-* `.each()`
-* `.find()`
-* `.map()`
-* `.add()`
-* `.filter()`
+
 
 ### DOM traversal methods
 * `.parent()`
@@ -47,9 +48,10 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 * `.on()`
 * `.off()`
 * `.trigger()`
+* `$(function() { alert("DOM loaded!") })` (Document ready)
 
 ## Special note
-This is only experiment - me trying learning about how jQuery is working. In other words __do not use this in production!__
+This is only experiment - me trying learning about how jQuery works. In other words __do not use this in production!__
 
 ## Browser support
-IE 8+, Chrome, Firefox, Safari, Opera
+IE 9+, Chrome, Firefox, Safari, Opera
