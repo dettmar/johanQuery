@@ -189,19 +189,19 @@ class johanQuery extends Array
 		#
 	###
 	
-	data: (val, key) -> @attr "data-#{val}", key
-	attr: (val, key) ->
+	data: (key, val) -> @attr "data-#{key}", val
+	attr: (key, val) ->
 		
 		# if only get value, get the first elements value
-		unless key?
-			attr = @get(0).getAttribute val
+		unless val?
+			attr = @get(0).getAttribute key
 			try attr = JSON.parse attr
 			return attr
 		
 		# if a set value, add to all elements
-		key = if typeof key is "string" then key else JSON.stringify key
+		val = if typeof val is "string" then val else JSON.stringify val
 		@each ->
-			@setAttribute val, key
+			@setAttribute key, val
 	
 	
 	###

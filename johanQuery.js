@@ -234,22 +234,22 @@
     		 *
      */
 
-    johanQuery.prototype.data = function(val, key) {
-      return this.attr("data-" + val, key);
+    johanQuery.prototype.data = function(key, val) {
+      return this.attr("data-" + key, val);
     };
 
-    johanQuery.prototype.attr = function(val, key) {
+    johanQuery.prototype.attr = function(key, val) {
       var attr;
-      if (key == null) {
-        attr = this.get(0).getAttribute(val);
+      if (val == null) {
+        attr = this.get(0).getAttribute(key);
         try {
           attr = JSON.parse(attr);
         } catch (_error) {}
         return attr;
       }
-      key = typeof key === "string" ? key : JSON.stringify(key);
+      val = typeof val === "string" ? val : JSON.stringify(val);
       return this.each(function() {
-        return this.setAttribute(val, key);
+        return this.setAttribute(key, val);
       });
     };
 
