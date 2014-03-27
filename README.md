@@ -2,7 +2,21 @@
 A tiny subset of jQuery - not nearly as awesome, but small. __911 B__ gzipped small.
 
 ## Methods
-On an instanciated object using `$("selector")`, you've got these methods at hand:
+
+### Create an instance
+
+As with jQuery you can pass the following things into constructor __`$( selector )`__:
+
+* CSS-selector
+* HTML string
+* `window` or `document`
+* `HTMLElement`
+* `NodeList`
+* `Function` (for Document ready)
+* `johanQuery` object
+  
+ 
+_On an instanciated object, you've got these methods at hand:_
 
 ### Result manipulation methods
 * `.find()`
@@ -50,7 +64,9 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 * `$(function() { alert("DOM loaded!") })` (Document ready)
 
 ## Special note
-This is only an experiment - me trying learning about how jQuery works. In other words __do not use this in production!__
+This is only an experiment - me trying learning about how jQuery works. In other words __do not use this in production!__  
+
+`window.johanQuery` and `window.$` are made available if they do not already exist. To make sure that your `$("#superElement")` or `johanQuery("#superElement")` is actually a `johanQuery` object, try `$("#superElement") instanceof johanQuery`.
 
 ## Todo
 * Tests against jQuery
