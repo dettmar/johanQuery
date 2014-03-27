@@ -36,7 +36,7 @@
         this.push.apply(this, [].slice.call(selector));
       } else if (this.isHTML(selector)) {
         this.push.apply(this, [].slice.call(this.parseHTML(selector)));
-      } else if (typeof selector === "function") {
+      } else if (selector instanceof Function) {
         if (document.readyState === "complete") {
           selector();
         } else {

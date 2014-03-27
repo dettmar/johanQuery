@@ -1,5 +1,5 @@
 # johanQuery
-A tiny subset of jQuery - not nearly as awesome, but small. __872 B__ gzipped small.
+A tiny subset of jQuery - not nearly as awesome, but small. __870 B__ gzipped small.
 
 ## Methods
 On an instanciated object using `$("selector")`, you've got these methods at hand:
@@ -22,7 +22,6 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 ### DOM traversal methods
 * `.parent()`
 * `.children()`
-* `.siblings()`
 
 ### Class manipulation methods
 * `.hasClass()`
@@ -51,7 +50,14 @@ On an instanciated object using `$("selector")`, you've got these methods at han
 * `$(function() { alert("DOM loaded!") })` (Document ready)
 
 ## Special note
-This is only experiment - me trying learning about how jQuery works. In other words __do not use this in production!__
+This is only an experiment - me trying learning about how jQuery works. In other words __do not use this in production!__
+
+## Todo
+* Tests against jQuery
+* Support second context parameter `$("selector", context)`
+* Support multiple events per element
+* Support namespaced events
+* Support `.siblings()`
 
 ## Browser support
-IE 9+, Chrome, Firefox, Safari, Opera
+IE 10+, Chrome, Firefox, Safari, Opera

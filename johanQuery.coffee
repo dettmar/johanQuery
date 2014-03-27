@@ -17,7 +17,7 @@ class johanQuery extends Array
 		# make sure new instance is created
 		unless @ instanceof johanQuery
 			return new johanQuery selector
-		
+				
 		# augment result with johanQuery methods
 		@extend @__proto__, johanQuery::
 		
@@ -31,7 +31,7 @@ class johanQuery extends Array
 			@push.apply @, [].slice.call selector
 		else if @isHTML selector
 			@push.apply @, [].slice.call @parseHTML selector
-		else if typeof selector is "function"
+		else if selector instanceof Function
 			if document.readyState is "complete" then selector()
 			else document.addEventListener "DOMContentLoaded", selector
 		else
