@@ -57,6 +57,7 @@ This is only an experiment - me trying learning about how jQuery works. In other
 * Support second context parameter `$("selector", context)`
 * Support multiple events per element
 * Support namespaced events
+* Support data to be passed with events
 * Support `.siblings()`
 
 ## Browser support
