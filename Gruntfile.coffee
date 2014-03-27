@@ -18,6 +18,7 @@ module.exports = (grunt) ->
 				report: 'gzip'
 				sourceMap: true
 				sourceMapName: 'johanQuery.min.js.map'
+				preserveComments: 'some'
 			my_target:
 				files:
 					'johanQuery.min.js': ['johanQuery.js']

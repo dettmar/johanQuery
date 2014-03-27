@@ -4,6 +4,8 @@
  * @description johanQuery - a tiny subset of jQuery
  * @class $ and johanQuery
  * @author J.Dettmar
+ * @see https://github.com/dettmar/johanQuery
+ * @license WTFPL
  *
  */
 
@@ -195,8 +197,6 @@
       })(this));
       return new johanQuery(result);
     };
-
-    johanQuery.prototype.siblings = function() {};
 
 
     /*

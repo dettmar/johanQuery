@@ -3,6 +3,8 @@
 # @description johanQuery - a tiny subset of jQuery
 # @class $ and johanQuery
 # @author J.Dettmar
+# @see https://github.com/dettmar/johanQuery
+# @license WTFPL
 #
 ###
 
@@ -136,7 +138,6 @@ class johanQuery extends Array
 		#
 	###
 	
-	# @todo combine with map?
 	parent: ->
 		
 		result = []
@@ -159,9 +160,6 @@ class johanQuery extends Array
 		
 		new johanQuery result
 	
-	
-	siblings: -> # @todo
-
 	
 	
 	###
@@ -279,7 +277,6 @@ class johanQuery extends Array
 		#
 	###
 	
-	# @todo: namespacing? data? multiple events?
 	on: (eventName, callback) ->
 		
 		@each ->

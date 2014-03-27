@@ -1,5 +1,5 @@
 # johanQuery
-A tiny subset of jQuery - not nearly as awesome, but small. __870 B__ gzipped small.
+A tiny subset of jQuery - not nearly as awesome, but small. __911 B__ gzipped small.
 
 ## Methods
 On an instanciated object using `$("selector")`, you've got these methods at hand:
