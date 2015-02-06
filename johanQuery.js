@@ -136,12 +136,9 @@
     };
 
     johanQuery.prototype.map = function(callback) {
-      var result;
-      result = [];
-      this.each(function(i) {
-        return result.push(callback.call(this, i, this));
+      return johanQuery.__super__.map.apply(this, arguments).map.call(this, function(el, i) {
+        return callback.call(el, i, el);
       });
-      return result;
     };
 
     johanQuery.prototype.add = function(content) {

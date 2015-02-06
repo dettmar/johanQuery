@@ -105,12 +105,8 @@ class johanQuery extends Array
 	
 	map: (callback) ->
 		
-		result = []
-
-		@each (i) ->
-			result.push callback.call @, i, @
-		
-		result
+		super.map.call @, (el, i) ->
+			callback.call el, i, el
 	
 	
 	add: (content) ->
