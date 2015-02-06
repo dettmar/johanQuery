@@ -70,9 +70,9 @@
 
 
     /*
-    		 *
-    		 * Result manipulation methods
-    		 *
+    	 *
+    	 * Result manipulation methods
+    	 *
      */
 
     johanQuery.prototype.slice = function() {
@@ -138,12 +138,8 @@
     johanQuery.prototype.map = function(callback) {
       var result;
       result = [];
-      this.each(function(i, element) {
-        var val;
-        val = callback.call(element, i, element);
-        if (val != null) {
-          return result.push(val);
-        }
+      this.each(function(i) {
+        return result.push(callback.call(this, i, this));
       });
       return result;
     };
@@ -155,10 +151,9 @@
 
     johanQuery.prototype.filter = function(callback) {
       var result;
-      result = [];
-      this.each(function(i, element) {
+      result = this.map(function(i, element) {
         if (callback.call(element, i, element)) {
-          return result.push(this);
+          return element;
         }
       });
       return new johanQuery(result);
@@ -166,9 +161,9 @@
 
 
     /*
-    		 *
-    		 * DOM traversal methods
-    		 *
+    	 *
+    	 * DOM traversal methods
+    	 *
      */
 
     johanQuery.prototype.parent = function() {
@@ -200,9 +195,9 @@
 
 
     /*
-    		 *
-    		 * Class manipulation methods
-    		 *
+    	 *
+    	 * Class manipulation methods
+    	 *
      */
 
     _manipulateClass = function(classNames, method) {
@@ -229,9 +224,9 @@
 
 
     /*
-    		 *
-    		 * Attribute manipulation methods
-    		 *
+    	 *
+    	 * Attribute manipulation methods
+    	 *
      */
 
     johanQuery.prototype.data = function(key, val) {
@@ -255,9 +250,9 @@
 
 
     /*
-    		 *
-    		 * Node insertion methods
-    		 *
+    	 *
+    	 * Node insertion methods
+    	 *
      */
 
     _insertNodes = function(nodes, method) {
@@ -293,9 +288,9 @@
 
 
     /*
-    		 *
-    		 * Node content methods
-    		 *
+    	 *
+    	 * Node content methods
+    	 *
      */
 
     _innerContent = function(content, method) {
@@ -338,9 +333,9 @@
 
 
     /*
-    		 *
-    		 * Events
-    		 *
+    	 *
+    	 * Events
+    	 *
      */
 
     johanQuery.prototype.on = function(eventName, callback) {
@@ -367,9 +362,9 @@
 
 
   /*
-  	 *
-  	 *	Expose johanQuery and allow for advanced optimizations
-  	 *
+   *
+   *	Expose johanQuery and allow for advanced optimizations
+   *
    */
 
   window["$"] = window["$"] || johanQuery;

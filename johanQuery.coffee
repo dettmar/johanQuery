@@ -59,9 +59,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Result manipulation methods
-		#
+	#
+	# Result manipulation methods
+	#
 	###
 	
 	slice: -> new johanQuery super
@@ -107,12 +107,11 @@ class johanQuery extends Array
 		
 		result = []
 
-		@each (i, element) ->
-			val = callback.call element, i, element
-			# only add if not null
-			result.push val if val?
+		@each (i) ->
+			result.push callback.call @, i, @
 		
 		result
+	
 	
 	add: (content) ->
 
@@ -122,20 +121,18 @@ class johanQuery extends Array
 	
 	filter: (callback) ->
 		
-		result = []
-		
-		@each (i, element) ->
+		result = @map (i, element) ->
 			if callback.call element, i, element
-				result.push @
+				element
 		
 		new johanQuery result
 		
 				
 	
 	###
-		#
-		# DOM traversal methods
-		#
+	#
+	# DOM traversal methods
+	#
 	###
 	
 	parent: ->
@@ -163,9 +160,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Class manipulation methods
-		#
+	#
+	# Class manipulation methods
+	#
 	###
 	
 	_manipulateClass = (classNames, method) ->
@@ -184,9 +181,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Attribute manipulation methods
-		#
+	#
+	# Attribute manipulation methods
+	#
 	###
 	
 	data: (key, val) -> @attr "data-#{key}", val
@@ -205,9 +202,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Node insertion methods
-		#
+	#
+	# Node insertion methods
+	#
 	###
 	
 	_insertNodes = (nodes, method) ->
@@ -234,9 +231,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Node content methods
-		#
+	#
+	# Node content methods
+	#
 	###
 	
 	_innerContent = (content, method) ->
@@ -272,9 +269,9 @@ class johanQuery extends Array
 	
 	
 	###
-		#
-		# Events
-		#
+	#
+	# Events
+	#
 	###
 	
 	on: (eventName, callback) ->
@@ -294,9 +291,9 @@ class johanQuery extends Array
 
 	
 ###
-	#
-	#	Expose johanQuery and allow for advanced optimizations
-	#
+#
+#	Expose johanQuery and allow for advanced optimizations
+#
 ###
 window["$"] = window["$"] or johanQuery
 window["johanQuery"] = window["johanQuery"] or johanQuery
