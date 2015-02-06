@@ -80,14 +80,8 @@ class johanQuery extends Array
 	
 	each: (callback) -> #[].forEach.apply(@, args)
 		
-		arr = @
-		
-		unless arr instanceof Array
-			arr = [].slice.call arr
-		
-		for element, i in arr
-			# make sure the this references the element
-			callback.call element, i, element
+		Array::forEach.call @, (el, i) ->
+			callback.call el, i, el
 		
 		@
 	

@@ -110,15 +110,9 @@
     };
 
     johanQuery.prototype.each = function(callback) {
-      var arr, element, i, _i, _len;
-      arr = this;
-      if (!(arr instanceof Array)) {
-        arr = [].slice.call(arr);
-      }
-      for (i = _i = 0, _len = arr.length; _i < _len; i = ++_i) {
-        element = arr[i];
-        callback.call(element, i, element);
-      }
+      Array.prototype.forEach.call(this, function(el, i) {
+        return callback.call(el, i, el);
+      });
       return this;
     };
 
