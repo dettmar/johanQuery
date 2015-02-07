@@ -80,8 +80,14 @@ class johanQuery extends Array
 	
 	each: (callback) -> #[].forEach.apply(@, args)
 		
-		Array::forEach.call @, (el, i) ->
-			callback.call el, i, el
+		arr = @
+		
+		unless arr instanceof Array
+			arr = [].slice.call arr
+		
+		for element, i in arr
+			# make sure the this references the element
+			callback.call element, i, element
 		
 		@
 	
@@ -99,8 +105,14 @@ class johanQuery extends Array
 	
 	map: (callback) ->
 		
-		super.map.call @, (el, i) ->
-			callback.call el, i, el
+		result = []
+
+		@each (i, element) ->
+			val = callback.call element, i, element
+			# only add if not null
+			result.push val if val?
+		
+		result
 	
 	
 	add: (content) ->
@@ -111,9 +123,11 @@ class johanQuery extends Array
 	
 	filter: (callback) ->
 		
-		result = @map (i, element) ->
+		result = []
+		
+		@each (i, element) ->
 			if callback.call element, i, element
-				element
+				result.push @
 		
 		new johanQuery result
 		

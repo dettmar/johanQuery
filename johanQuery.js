@@ -110,9 +110,15 @@
     };
 
     johanQuery.prototype.each = function(callback) {
-      Array.prototype.forEach.call(this, function(el, i) {
-        return callback.call(el, i, el);
-      });
+      var arr, element, i, _i, _len;
+      arr = this;
+      if (!(arr instanceof Array)) {
+        arr = [].slice.call(arr);
+      }
+      for (i = _i = 0, _len = arr.length; _i < _len; i = ++_i) {
+        element = arr[i];
+        callback.call(element, i, element);
+      }
       return this;
     };
 
@@ -130,9 +136,16 @@
     };
 
     johanQuery.prototype.map = function(callback) {
-      return johanQuery.__super__.map.apply(this, arguments).map.call(this, function(el, i) {
-        return callback.call(el, i, el);
+      var result;
+      result = [];
+      this.each(function(i, element) {
+        var val;
+        val = callback.call(element, i, element);
+        if (val != null) {
+          return result.push(val);
+        }
       });
+      return result;
     };
 
     johanQuery.prototype.add = function(content) {
@@ -142,9 +155,10 @@
 
     johanQuery.prototype.filter = function(callback) {
       var result;
-      result = this.map(function(i, element) {
+      result = [];
+      this.each(function(i, element) {
         if (callback.call(element, i, element)) {
-          return element;
+          return result.push(this);
         }
       });
       return new johanQuery(result);
