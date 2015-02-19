@@ -32,7 +32,13 @@ class johanQuery extends Array
 		else if selector instanceof NodeList
 			@push.apply @, [].slice.call selector
 		else if @isHTML selector
-			@push.apply @, [].slice.call @parseHTML selector
+			
+			result = @parseHTML selector
+			console.log "ishtml", selector, typeof result
+			if selector is result
+				@push.apply @, [].slice.call document.querySelectorAll selector
+			else
+				@push.apply @, [].slice.call result
 		else if selector instanceof Function
 			if document.readyState is "complete" then selector()
 			else document.addEventListener "DOMContentLoaded", selector
@@ -54,7 +60,7 @@ class johanQuery extends Array
 	
 	isHTML: (string) ->
 		
-		regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/
+		regx = /(<([^>]+)>)/ig #/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/
 		regx.test string
 	
 	

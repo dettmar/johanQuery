@@ -21,6 +21,7 @@
     __extends(johanQuery, _super);
 
     function johanQuery(selector) {
+      var result;
       if (selector instanceof johanQuery) {
         return selector;
       }
@@ -37,7 +38,13 @@
       } else if (selector instanceof NodeList) {
         this.push.apply(this, [].slice.call(selector));
       } else if (this.isHTML(selector)) {
-        this.push.apply(this, [].slice.call(this.parseHTML(selector)));
+        result = this.parseHTML(selector);
+        console.log("ishtml", selector, typeof result);
+        if (selector === result) {
+          this.push.apply(this, [].slice.call(document.querySelectorAll(selector)));
+        } else {
+          this.push.apply(this, [].slice.call(result));
+        }
       } else if (selector instanceof Function) {
         if (document.readyState === "complete") {
           selector();
@@ -64,7 +71,7 @@
 
     johanQuery.prototype.isHTML = function(string) {
       var regx;
-      regx = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+      regx = /(<([^>]+)>)/ig;
       return regx.test(string);
     };
 
