@@ -1,7 +1,19 @@
 module.exports = (grunt) ->
 
 	@initConfig
-	
+		
+		'http-server':
+			dev:
+				root: './tests/'
+				port: 8080
+				runInBackground: true
+				cache: 1
+			prod:
+				root: './tests/'
+				port: 8080
+				runInBackground: false
+				cache: 1
+		
 		watch:
 			files: 'johanQuery.coffee',
 			tasks: ['coffee', 'uglify']
@@ -17,18 +29,20 @@ module.exports = (grunt) ->
 			options:
 				report: 'gzip'
 				sourceMap: true
-				sourceMapName: 'johanQuery.min.js.map'
+				sourceMapName: 'tests/johanQuery.min.js.map'
 				preserveComments: 'some'
 			my_target:
 				files:
-					'johanQuery.min.js': ['johanQuery.js']
+					'tests/johanQuery.min.js': ['johanQuery.js']
 	
 	@loadNpmTasks 'grunt-contrib-watch'
 	@loadNpmTasks 'grunt-contrib-coffee'
 	@loadNpmTasks 'grunt-contrib-uglify'
+	@loadNpmTasks 'grunt-http-server'
 
 	@registerTask 'default', [
 		'coffee'
 		'uglify'
+		'http-server:dev'
 		'watch'
 	]
