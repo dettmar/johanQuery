@@ -21,7 +21,7 @@ module.exports = (grunt) ->
 				files: 'johanQuery.coffee',
 				tasks: ['coffee:dev', 'uglify']
 			tests:
-				files: 'tests/tests.coffee'
+				files: ['tests/tests.coffee', 'tests/index.html']
 				tasks: ['coffee:tests']
 			
 		

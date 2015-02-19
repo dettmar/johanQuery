@@ -4,17 +4,29 @@
 		<meta charset="utf-8">
 		<title>johanQuery</title>
 		<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.17.1.css">
-		
 	</head>
 	<body>
 		<section>
-			<header>
-				<h1>This is a test page</h1>
-				<h2>With so many different elements</h2>
+			<header class="intro">
+				<h1 title="yes really!">This is a test page for <a href="https://github.com/dettmar/johanQuery">johanQuery</a></h1>
+				<h2 lang="en">With so many different elements and attributes</h2>
+				<h3>Raw source here <a href="https://github.com/dettmar/johanQuery/blob/master/johanQuery.js">here</a></h3>
 				<p>In condimentum facilisis porta. Sed nec diam eu <strong>diam mattis viverra</strong>. Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, quis sollicitudin sapien justo in libero. Vestibulum mollis mauris enim. Morbi euismod magna ac lorem rutrum elementum. Donec viverra auctor lobortis. Pellentesque eu est a nulla placerat dignissim. Morbi a enim in magna semper bibendum. Etiam scelerisque, nunc ac egestas consequat, odio <span>nibh euismod nulla, eget auctor orci nibh</span> vel nisi. Aliquam erat volutpat. Mauris.</p>
+				<p></p>
 			</header>
 			<div id="content">
 				<p>Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis tortor.</p>
+				<form action="index.html" method="get" accept-charset="utf-8">
+					<label for="blabla">Bla bla</label>
+					<input id="blabla" type="checkbox" checked readwrite name="blabla" value="blabla" autofocus><br />
+					<input id="blabla" type="checkbox" checked disabled name="blabla" value="blabla"><br />
+					<input type="email" value="notan[at]valid.email" required="" /><br />
+					<input type="range" min="5" max="10" value="15" readonly />
+					
+				</form>
+				<div>
+					<p>I'm the only child</p>
+				</div>
 			</div>
 			<footer>
 				<div>
@@ -25,11 +37,11 @@
 					</ul>
 					<ul class="second">
 						<li><a href="#4">4</a></li>
-						<li><a href="#5">5</a></li>
+						<li><a href="#5" target="_blank">5</a></li>
 						<li><a href="#6">6</a></li>
 					</ul>
 					<ol class="third">
-						<li><a href="#7">7</a></li>
+						<li><a href="#7" target="_top">7</a></li>
 						<li><a href="#8">8</a></li>
 						<li><a href="#9">9</a></li>
 					</ol>
