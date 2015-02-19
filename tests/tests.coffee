@@ -2,7 +2,8 @@ selectors = [
 	'.intro'
 	'#content'
 	'*'
-	'p'
+	':not(p)'
+	'html'
 	'div, p'
 	'div p'
 	'div > p'
@@ -34,7 +35,7 @@ selectors = [
 	'p:last-child'
 	'p:last-of-type'
 	'a:link'
-	':not(p)'
+	
 	'p:nth-child(5)'
 	'p:nth-last-child(2)'
 	'p:nth-last-of-type(2)'
@@ -49,6 +50,7 @@ selectors = [
 	'input:read-write'
 	'input:required'
 	':root'
+	
 	#'::selection'
 	'input:valid'
 	#'a:visited'
@@ -78,13 +80,44 @@ QUnit.test "Finds the same amount jQuery", ( assert ) ->
 			jQuery(selector).length,
 			"johanQuery('#{selector}') selects same as jQuery (#{jQuery(selector).length} results)"
 
-QUnit.test "And they are the same Elements", ( assert ) ->
+QUnit.test "And they are the same elements in the same order", ( assert ) ->
 	
 	for selector in selectors
 		johanQueryResult = johanQuery(selector)
 		jQueryResult = jQuery(selector)
 		
 		for result, i in johanQueryResult
-			assert.ok johanQueryResult[i] is jQueryResult[i], "Both got the same <#{jQueryResult[i].tagName}>"
+			assert.ok johanQueryResult[i] is jQueryResult[i], "Both got the same <#{jQueryResult[i].tagName}> (#{selector})"
+
+
+QUnit.test "Can manipulate classes", ( assert ) ->
+	
+	# TODO, separate in batches to not freeze the browser
+	
+	for selector in selectors[4..-10] # without window and document
+		johanQuery(selector).each ->
+
+			johanQueryElement = johanQuery(@)
+			johanQueryElement.addClass "testing-class"			
+			jQueryElement = jQuery(@)
+			
+			assert.ok jQueryElement.hasClass("testing-class"), "'#{selector}': Can add class to <#{@tagName}> "
+			
+			johanQueryElement.removeClass "testing-class"
+			
+			assert.ok not jQueryElement.hasClass("testing-class"), "'#{selector}': Can remove class to <#{@tagName}> "
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
