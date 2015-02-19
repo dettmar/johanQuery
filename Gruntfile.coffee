@@ -15,15 +15,25 @@ module.exports = (grunt) ->
 				cache: 1
 		
 		watch:
-			files: 'johanQuery.coffee',
-			tasks: ['coffee', 'uglify']
+			options:
+				livereload: true
+			dev:
+				files: 'johanQuery.coffee',
+				tasks: ['coffee:dev', 'uglify']
+			tests:
+				files: 'tests/tests.coffee'
+				tasks: ['coffee:tests']
+			
 		
 		coffee:
 			options:
 				sourceMap: true
-			compile:
+			dev:
 				files:
 					'johanQuery.js': 'johanQuery.coffee'
+			tests:
+				files:
+					'tests/tests.js': 'tests/tests.coffee'
 		
 		uglify:
 			options:
@@ -41,7 +51,8 @@ module.exports = (grunt) ->
 	@loadNpmTasks 'grunt-http-server'
 
 	@registerTask 'default', [
-		'coffee'
+		'coffee:dev'
+		'coffee:tests'
 		'uglify'
 		'http-server:dev'
 		'watch'
