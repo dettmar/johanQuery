@@ -91,11 +91,9 @@ QUnit.test "And they are the same elements in the same order", ( assert ) ->
 
 
 QUnit.test "Can manipulate classes", ( assert ) ->
-	
-	# TODO, separate in batches to not freeze the browser
-	
-	for selector in selectors[4..-10] # without window and document
-		johanQuery(selector).each ->
+		
+	for selector in selectors[0..-3] # without window and document
+		johanQuery("section #{selector}").each ->
 
 			johanQueryElement = johanQuery(@)
 			johanQueryElement.addClass "testing-class"			
@@ -107,6 +105,21 @@ QUnit.test "Can manipulate classes", ( assert ) ->
 			
 			assert.ok not jQueryElement.hasClass("testing-class"), "'#{selector}': Can remove class to <#{@tagName}> "
 
+
+QUnit.test "Can manipulate attributes", ( assert ) ->
+	
+	for selector in selectors[0..-3] # without window and document
+		johanQuery("section #{selector}").each ->
+
+			johanQueryElement = johanQuery(@)
+			johanQueryElement.attr "testing-attr", "testing-value"
+			jQueryElement = jQuery(@)
+			
+			assert.equal jQueryElement.attr("testing-attr"), "testing-value", "'#{selector}': Can add class to <#{@tagName}> "
+			
+			johanQueryElement.attr "testing-attr", ""
+			
+			assert.equal jQueryElement.attr("testing-attr"), "", "'#{selector}': Can remove class to <#{@tagName}> "
 
 
 
