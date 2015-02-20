@@ -96,8 +96,8 @@ QUnit.test "Can manipulate classes", ( assert ) ->
 		johanQuery("section #{selector}").each ->
 
 			johanQueryElement = johanQuery(@)
-			johanQueryElement.addClass "testing-class"			
 			jQueryElement = jQuery(@)
+			johanQueryElement.addClass "testing-class"			
 			
 			assert.ok jQueryElement.hasClass("testing-class"), "'#{selector}': Can add class to <#{@tagName}> "
 			
@@ -112,8 +112,8 @@ QUnit.test "Can manipulate attributes", ( assert ) ->
 		johanQuery("section #{selector}").each ->
 
 			johanQueryElement = johanQuery(@)
-			johanQueryElement.attr "testing-attr", "testing-value"
 			jQueryElement = jQuery(@)
+			johanQueryElement.attr "testing-attr", "testing-value"
 			
 			assert.equal jQueryElement.attr("testing-attr"), "testing-value", "'#{selector}': Can add class to <#{@tagName}> "
 			
@@ -122,7 +122,13 @@ QUnit.test "Can manipulate attributes", ( assert ) ->
 			assert.equal jQueryElement.attr("testing-attr"), "", "'#{selector}': Can remove class to <#{@tagName}> "
 
 
+####### TESTS TO DO
 
+# Manipulate html
+# Manipulate text
+# Filter
+# Sort
+# Send events
 
 
 
