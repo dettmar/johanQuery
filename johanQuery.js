@@ -69,11 +69,7 @@
       return obj;
     };
 
-    johanQuery.prototype.isHTML = function(string) {
-      var regx;
-      regx = /(<([^>]+)>)/ig;
-      return regx.test(string);
-    };
+    johanQuery.prototype.isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/ig);
 
 
     /*
